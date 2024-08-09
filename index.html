@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+
+
+    <div>
+        <h1 id="word">current word: </h1>
+        
+        <h2>Right Letters: <span id="progress"></span></h2>
+        <p>Words gueesed: <span id="guesses"></span></p>
+        <p>Remaining health: <span id="health"></span> </p>
+    </div>
+
+    <form id="guessForm">
+        <label for="guess">
+            <p>Guess a letter</p>
+            <input type="text" id="guessInput" maxlength="1" required>
+            <input type="submit">
+        </label>
+    </form>
+
+    <script src="hangman.js" defer></script>
+</body>
+
+</html>
