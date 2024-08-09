@@ -1,47 +1,21 @@
 
+
 var listOfWords = ["monkey", "cat", "dog"]
-var currentWord = "cat";
-var currentWordCheck = "";
+var currentWord = "";
+var currentWordCheck = [];
 
 var letterGueesed = "";
 var numberOfGuesses = 0
 
 var health = 5;
 
-
-
-function getRandomWord(wordList) {
-    currentWord = wordList[Math.floor(Math.random() * wordList.length)]
-    console.log(currentWord);
-    return currentWord;
-}
-function guess(currentGuess) {
-    currentWord = currentWord.split('').sort().join('');
-
-    if (currentWord.includes(currentGuess)) {
-        if (currentWordCheck.includes(currentGuess)) {
-            console.log("Bokstav finns redan");
-
-        } else {
-            currentWordCheck += currentGuess;
-            currentWordCheck = currentWordCheck.split('').sort().join('');
-            console.log("rätt");
-            if (currentWordCheck.includes(currentWord)) {
-                console.log("då var alla ord hittade");
-            }
-
-        }
-    } else {
-        letterGueesed += currentGuess;
-        console.log("fel");
-        health -= 1;
-    }
-}
-
+var allLetters = "abcdefghijklmnopqrstuvwxyz";
 getRandomWord(listOfWords);
+
 let displayCurrentWord = document.getElementById("word")
 displayCurrentWord.append(currentWord)
-let displayProgress = document.getElementById("progress")
+var displayProgress = document.getElementById("progress")
+var buttonDiv = document.getElementById("lettersDiv")
 
 
 
@@ -52,10 +26,68 @@ displayHealth.append(health)
 
 
 
-document.getElementById('guessForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    let guessFromInput = document.getElementById('guessInput').value;
-    guess(guessFromInput);
-    displayGuesses.inn
-    displayHealth.innerHTML = health;
-});
+
+
+function getRandomWord(wordList) {
+    currentWord = wordList[Math.floor(Math.random() * wordList.length)]
+    console.log(currentWord);
+    return currentWord;
+}
+
+function generateButtons() {
+    let index = 0;
+    for (let element of allLetters) {
+        let letterButton = document.createElement("button")
+        letterButton.innerHTML = element
+        letterButton.id = index
+        letterButton.addEventListener("click", (() => {
+            guess(allLetters[letterButton.id]);
+            letterButton.disabled = true;
+
+        }))
+        index += 1
+        buttonDiv.append(letterButton)
+
+    }
+
+}
+
+
+generateButtons();
+function guess(currentGuess) {
+    console.log(currentWord);
+
+    if (health != 0) {
+        if (currentWord.includes(currentGuess)) {
+            if (currentWordCheck.includes(currentGuess)) {
+                console.log("Bokstav finns redan");
+
+            } else {
+
+                currentWordCheck.push(currentGuess);
+                currentWordCheck.sort((a, b) => {
+                    return currentWord.indexOf(a) - currentWord.indexOf(b);
+                });
+
+
+                displayProgress.innerText = currentWordCheck.join(''); // "dog"
+                if (displayProgress.innerText === currentWord) {
+                    console.log("då var alla ord hittade");
+                }
+
+            }
+        } else {
+            letterGueesed += currentGuess;
+            health -= 1;
+        }
+
+
+
+        displayGuesses.innerHTML = letterGueesed;
+        displayHealth.innerHTML = health;
+    } else {
+        console.log("u fucking lost Bitch");
+
+    }
+}
+

@@ -14,19 +14,18 @@
 
     <div>
         <h1 id="word">current word: </h1>
-        
         <h2>Right Letters: <span id="progress"></span></h2>
         <p>Words gueesed: <span id="guesses"></span></p>
         <p>Remaining health: <span id="health"></span> </p>
     </div>
 
-    <form id="guessForm">
+    <div id="guessForm">
         <label for="guess">
             <p>Guess a letter</p>
-            <input type="text" id="guessInput" maxlength="1" required>
-            <input type="submit">
+            <div id="lettersDiv"></div>
+
         </label>
-    </form>
+    </div>
 
     <script src="hangman.js" defer></script>
 </body>
