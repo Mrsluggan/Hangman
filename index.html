@@ -9,20 +9,20 @@
 </head>
 
 
-<body>
+<body >
 
 
-    <div>
-        <h1 id="word">current word: </h1>
-        <h2>Right Letters: <span id="progress"></span></h2>
+    <div style="text-align: center;">
+        <h1>current word: <span id="word"></span> </h1>
+        <h2><span id="progress"></span></h2>
         <p>Words gueesed: <span id="guesses"></span></p>
         <p>Remaining health: <span id="health"></span> </p>
     </div>
 
     <div id="guessForm">
         <label for="guess">
-            <p>Guess a letter</p>
-            <div id="lettersDiv"></div>
+            <p style="text-align: center;">Guess a letter</p>
+            <div id="lettersDiv" style="width: 900px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;"></div>
 
         </label>
     </div>
