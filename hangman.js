@@ -1,134 +1,157 @@
+var listOfWords = [
+    "monkey", "cat", "dog", "fox", "rabbit", "pig",
+    "lion", "horse", "sheep", "cow", "goat", "chicken"
+];
 
-
-var playing = true;
-var listOfWords = ["monkey", "cat", "dog", "fox", "rabbit", "pig", "lion", "horse", "sheep", "cow", "goat", "chicken"]
 var currentWord = "";
 var currentWordCheck = [];
 var audio = new Audio('/buttonSound.mp3');
-var letterGueesed = "";
-var numberOfGuesses = 0
+var backgroundMusic = new Audio('/backgroundmusic.mp3');
 
+var letterGuessed = "";
+var numberOfGuesses = 0;
 var health = 5;
-
 var allLetters = "abcdefghijklmnopqrstuvwxyz";
 
-let displayCurrentWord = document.getElementById("word")
-displayCurrentWord.append(currentWord)
-var displayProgress = document.getElementById("progress")
-var buttonDiv = document.getElementById("lettersDiv")
+var displayProgress = document.getElementById("progress");
+var buttonDiv = document.getElementById("lettersDiv");
+
+let displayGuesses = document.getElementById("guesses");
+let displayHealth = document.getElementById("health");
+let startButton = document.getElementById("startbutton");
+let startMenu = document.getElementById("startmenu");
+let gameDiv = document.getElementById("gameDiv");
+let howToPlayButton = document.getElementById("howtoplaybutton");
+let howToMenu = document.getElementById("howtoplay");
+const elements = document.querySelectorAll('.backToMenu');
+const backtoMenu = Array.from(elements);
+let scoreboard = document.getElementById("scoreboard");
+let scoreboardDiv = document.getElementById("scoreboarddiv");
+
+displayGuesses.append(letterGuessed);
+displayHealth.append(health);
+
+startButton.addEventListener("click", () => {
+    backgroundMusic.currentTime = 0;
+    backgroundMusic.loop = true;
+    backgroundMusic.volume = 0.5;
+    backgroundMusic.play();
+
+    startMenu.classList.add('hidden');
+
+    gameDiv.classList.add('visible');
+    gameDiv.style.display = "block";
 
 
+    getRandomWord(listOfWords);
+    generateButtons();
+});
 
-let displayGuesses = document.getElementById("guesses")
-let displayHealth = document.getElementById("health")
-displayGuesses.append(letterGueesed)
-displayHealth.append(health)
+howToPlayButton.addEventListener("click", () => {
+    startMenu.classList.add('hidden');
+    howToMenu.classList.add('visible');
+    howToMenu.style.display = "block";
 
+});
 
+backtoMenu.forEach(element => {
+    element.addEventListener("click", () => {
+        backgroundMusic.pause();
+        gameDiv.classList.remove('visible');
+        gameDiv.style.display = "none";
+        howToMenu.classList.remove('visible');
+        howToMenu.style.display = "none";
+        startMenu.classList.remove('hidden');
 
-getRandomWord(listOfWords);
+    });
+});
 
 
 function getRandomWord(wordList) {
+    currentWord = wordList[Math.floor(Math.random() * wordList.length)];
+    displayProgress.innerText = ("_ ").repeat(currentWord.length);
 
-
-    currentWord = wordList[Math.floor(Math.random() * wordList.length)]
-    displayCurrentWord.innerText = currentWord
-    displayProgress.innerText = ("_ ").repeat(currentWord.length)
-    for (element of currentWord) {
-        currentWordCheck.push("_")
-    }
+    currentWordCheck = Array(currentWord.length).fill("_");
 
     console.log(currentWord);
     return currentWord;
 }
 
 function playClick() {
-    audio.currentTime = 0
+    audio.currentTime = 0;
     audio.play();
 }
+
 function generateButtons() {
-
     buttonDiv.innerHTML = "";
-    let index = 0;
-
-    for (let element of allLetters) {
-        let letterButton = document.createElement("button")
-        letterButton.innerHTML = element
-        letterButton.id = index
-        letterButton.addEventListener("click", (() => {
-            guess(allLetters[letterButton.id]);
+    allLetters.split("").forEach((letter, index) => {
+        let letterButton = document.createElement("button");
+        letterButton.innerHTML = letter;
+        letterButton.id = index;
+        letterButton.addEventListener("click", () => {
+            guess(letter);
             playClick();
             letterButton.disabled = true;
-
-        }))
-        index += 1
-        buttonDiv.append(letterButton)
-
-    }
-
+        });
+        buttonDiv.append(letterButton);
+    });
 }
 
-
-generateButtons();
-
-
-
 function guess(currentGuess) {
-
-    // Kollar hur mycket liv som är kvar
     if (health === 0) {
-        console.log("u fucking lost Bitch");
+        setTimeout(() => {
+            if (confirm("Vill du spela igen?")) {
+                restart();
+            } else {
+                restart();
+                startMenu.classList.remove('hidden');
+                gameDiv.classList.remove('visible');
+                backgroundMusic.pause();
+            }
+        }, 100);
         return;
     }
 
-    // Kollar om bokstaven finns i ordet
     if (currentWord.includes(currentGuess)) {
-        // Kollar om bokstaven redan har gissats
         if (currentWordCheck.includes(currentGuess)) {
             console.log("Bokstav finns redan");
         } else {
-            // Kollar om det finns flera av samma bokstav i ordet
             for (let i = 0; i < currentWord.length; i++) {
                 if (currentWord[i] === currentGuess) {
                     currentWordCheck[i] = currentGuess;
                 }
             }
-
-            // Uppdatera progress
             displayProgress.innerText = currentWordCheck.join(' ');
-
         }
     } else {
-        // om inget stämde, minska livet med 1
-        letterGueesed += currentGuess;
+        letterGuessed += currentGuess;
         health -= 1;
     }
 
-    // Uppdatera display
-    displayGuesses.innerHTML = letterGueesed;
+    displayGuesses.innerHTML = letterGuessed;
     displayHealth.innerHTML = health;
 
-    // Kontrollera om spelet är vunnet
     if (currentWordCheck.join('') === currentWord) {
         setTimeout(() => {
             if (confirm("Vill du spela igen?")) {
                 restart();
             } else {
-                alert("DU VANN");
+                restart();
+                startMenu.classList.remove('hidden');
+                gameDiv.classList.remove('visible');
+                backgroundMusic.pause();
             }
-        }, 100);  // Fördröjning på 100 ms för att ge webbläsaren tid att uppdatera DOM
+        }, 100);
     }
-
 }
-
 
 function restart() {
     currentWordCheck = [];
+    letterGuessed = "";
+    health = 5;
+    displayProgress.innerText = ("_ ").repeat(currentWord.length);
+    displayHealth.innerText = health;
+    displayGuesses.innerText = letterGuessed;
     getRandomWord(listOfWords);
     generateButtons();
-
 }
-
-
-
