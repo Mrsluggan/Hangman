@@ -146,6 +146,8 @@ function guess(currentGuess) {
                 startMenu.classList.add('visible');
                 gameDiv.classList.remove('visible');
                 howToMenu.classList.remove('visible');
+                backgroundMusic.pause();
+
             }
         }, 100);
     }
