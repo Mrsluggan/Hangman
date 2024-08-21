@@ -1,31 +1,40 @@
 body {
     color: white;
-    font-size: 30px;
+    font-size: 2vw;
     text-shadow: 2px 2px 4px #000000;
     text-align: center;
     background: linear-gradient(to right, #ff7e5f, #feb47b);
-    height: 100vh;
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
     font-family: 'Poppins', sans-serif;
+    margin: 0;
     overflow: hidden;
 }
 
+
+
+.button-container {
+    margin-top: 15%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
 button {
-    font-size: 60px;
+    font-size: 2vw;
     color: white;
-    width: 100px;
+    width: 60%;
+    max-width: 200px;
     border-radius: 10px;
     margin: 5px;
+    padding: 10px;
     border: none;
     cursor: pointer;
     background: linear-gradient(to right, #ff7e5f, #feb47b);
     transition: transform 0.2s ease-in-out;
-}
-
-button.active {
-    background: linear-gradient(to right, #ff7e5f, #feb47b);
 }
 
 button.active:hover {
@@ -37,49 +46,61 @@ button.disabled {
     background: linear-gradient(to right, #ffb1a0, #f7c8b6);
     cursor: not-allowed;
     opacity: 0.4;
-    border: 1px solid #f0b7a1;
-    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Ingen effekt vid hover på disabled-knappen, så denna regel kan vara tom */
-button.disabled:hover {}
-
-
-
-#startmenu.visible {
-    display: block;
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out;
+#lettersDiv {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    max-width: 100%;
+    padding: 10px;
 }
 
-#startmenu {
-    opacity: 0;
-    display: none;
-    transition: opacity 0.3s ease-in-out;
-}
-
-#gameDiv {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-
-}
-
+#startmenu.visible,
+#howtoplay.visible,
 #gameDiv.visible {
     display: block;
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
 }
 
-#howtoplay {
-    display: none;
+#startmenu,
+#howtoplay,
+#gameDiv {
     opacity: 0;
+    display: none;
     transition: opacity 0.3s ease-in-out;
-
 }
 
-#howtoplay.visible {
-    display: block;
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out;
+@media (max-width: 768px) {
+    body {
+        font-size: 5vw;
+    }
+
+    button {
+        font-size: 5vw;
+    }
+
+    button.active {
+        width: 10%;
+    }
+    button.disabled {
+        width: 10%;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 6vw;
+    }
+
+    button {
+        font-size: 6vw;
+        width: 80%;
+    }
+
+    .button-container {
+        margin-top: 30%;
+    }
 }

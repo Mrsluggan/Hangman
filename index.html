@@ -8,43 +8,39 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-
 <body>
-    <div style="text-align: center;" id="startmenu" class="visible" >
+    <div id="startmenu" class="visible">
         <h1>Welcome to sluggans Hangman</h1>
         <p>A simple game to play while bored</p>
-        <div style="margin-top: 15%; display: flex; flex-direction: column; gap: 10px; align-items: center; ">
-            <button style="width: 45%;" id="startbutton">Start game</button>
-            <button style="width: 45%;" id="howtoplaybutton">How to play</button>
-            <button style="width: 45%;" id="scoreboardbutton">Scoreboard</button>
-
+        <div class="button-container">
+            <button id="startbutton">Start game</button>
+            <button id="howtoplaybutton">How to play</button>
+            <button id="scoreboardbutton">Scoreboard</button>
         </div>
-
     </div>
-    <div style="text-align: center;" id="howtoplay">
+
+    <div id="howtoplay">
         <h1>How to play</h1>
         <p>Guess a letter to try and guess the word</p>
-        <button style="width: 45%;" class="backToMenu">back</button>
-
+        <button class="backToMenu">back</button>
     </div>
+
     <div id="gameDiv">
-        <div style="text-align: center;">
+        <div>
             <h2><span id="progress"></span></h2>
-            <p>Words gueesed: <span id="guesses"></span></p>
-            <p>Remaining health: <span id="health"></span> </p>
+            <p>Words guessed: <span id="guesses"></span></p>
+            <p>Remaining health: <span id="health"></span></p>
         </div>
 
         <div id="guessForm">
             <label for="guess">
-                <p style="text-align: center;">Guess a letter</p>
-                <div id="lettersDiv"
-                    style="width: 900px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;"></div>
-
+                <p>Guess a letter</p>
+                <div id="lettersDiv"></div>
             </label>
-            <button style="width: 45%;" class="backToMenu">back</button>
-
+            <button class="backToMenu">back</button>
         </div>
     </div>
+
     <script src="hangman.js" defer></script>
 </body>
 
