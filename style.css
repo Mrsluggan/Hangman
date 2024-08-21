@@ -10,7 +10,6 @@ body {
     flex-direction: column;
     font-family: 'Poppins', sans-serif;
     overflow: hidden;
-
 }
 
 button {
@@ -20,29 +19,42 @@ button {
     border-radius: 10px;
     margin: 5px;
     border: none;
+    cursor: pointer;
     background: linear-gradient(to right, #ff7e5f, #feb47b);
     transition: transform 0.2s ease-in-out;
-    cursor: pointer;
 }
 
-button:hover {
+button.active {
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+}
+
+button.active:hover {
     background: linear-gradient(to right, #ff7e5f, #faa15e);
     transform: scale(1.1);
-
 }
 
+button.disabled {
+    background: linear-gradient(to right, #ffb1a0, #f7c8b6);
+    cursor: not-allowed;
+    opacity: 0.4;
+    border: 1px solid #f0b7a1;
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Ingen effekt vid hover på disabled-knappen, så denna regel kan vara tom */
+button.disabled:hover {}
 
 
-#startmenu {
 
+#startmenu.visible {
+    display: block;
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
 }
 
-#startmenu.hidden {
+#startmenu {
     opacity: 0;
-    pointer-events: none;
-    position: absolute;
+    display: none;
     transition: opacity 0.3s ease-in-out;
 }
 
@@ -54,25 +66,20 @@ button:hover {
 }
 
 #gameDiv.visible {
-    position: absolute;
-
     display: block;
     opacity: 1;
-    transition: opacity 0.6s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
 }
 
 #howtoplay {
     display: none;
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
+
 }
 
 #howtoplay.visible {
-    position: absolute;
     display: block;
     opacity: 1;
-    transition: opacity 0.6s ease-in-out;
-}
-
-.backToMenu {
+    transition: opacity 0.3s ease-in-out;
 }

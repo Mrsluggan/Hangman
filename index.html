@@ -10,7 +10,7 @@
 
 
 <body>
-    <div style="text-align: center;" id="startmenu">
+    <div style="text-align: center;" id="startmenu" class="visible" >
         <h1>Welcome to sluggans Hangman</h1>
         <p>A simple game to play while bored</p>
         <div style="margin-top: 15%; display: flex; flex-direction: column; gap: 10px; align-items: center; ">
@@ -21,13 +21,13 @@
         </div>
 
     </div>
-    <div style="text-align: center; display: none;" id="howtoplay">
+    <div style="text-align: center;" id="howtoplay">
         <h1>How to play</h1>
         <p>Guess a letter to try and guess the word</p>
         <button style="width: 45%;" class="backToMenu">back</button>
 
     </div>
-    <div style="display: none;" id="gameDiv">
+    <div id="gameDiv">
         <div style="text-align: center;">
             <h2><span id="progress"></span></h2>
             <p>Words gueesed: <span id="guesses"></span></p>

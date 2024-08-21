@@ -37,10 +37,11 @@ startButton.addEventListener("click", () => {
     backgroundMusic.volume = 0.5;
     backgroundMusic.play();
 
-    startMenu.classList.add('hidden');
+    startMenu.classList.remove('visible');
 
     gameDiv.classList.add('visible');
     gameDiv.style.display = "block";
+
 
 
     getRandomWord(listOfWords);
@@ -48,9 +49,10 @@ startButton.addEventListener("click", () => {
 });
 
 howToPlayButton.addEventListener("click", () => {
-    startMenu.classList.add('hidden');
+    startMenu.classList.remove('visible');
     howToMenu.classList.add('visible');
     howToMenu.style.display = "block";
+
 
 });
 
@@ -61,11 +63,11 @@ backtoMenu.forEach(element => {
         gameDiv.style.display = "none";
         howToMenu.classList.remove('visible');
         howToMenu.style.display = "none";
-        startMenu.classList.remove('hidden');
+        startMenu.classList.add('visible');
+        restart();
 
     });
 });
-
 
 function getRandomWord(wordList) {
     currentWord = wordList[Math.floor(Math.random() * wordList.length)];
@@ -86,26 +88,30 @@ function generateButtons() {
     buttonDiv.innerHTML = "";
     allLetters.split("").forEach((letter, index) => {
         let letterButton = document.createElement("button");
+        letterButton.classList.add("active");
         letterButton.innerHTML = letter;
         letterButton.id = index;
         letterButton.addEventListener("click", () => {
             guess(letter);
             playClick();
             letterButton.disabled = true;
+            letterButton.classList.remove("active");
+            letterButton.classList.add("disabled");
         });
         buttonDiv.append(letterButton);
     });
 }
 
 function guess(currentGuess) {
-    if (health === 0) {
+    if (health === 1) {
         setTimeout(() => {
             if (confirm("Vill du spela igen?")) {
                 restart();
             } else {
                 restart();
-                startMenu.classList.remove('hidden');
+                startMenu.classList.add('visible');
                 gameDiv.classList.remove('visible');
+                howToMenu.classList.remove('visible');
                 backgroundMusic.pause();
             }
         }, 100);
@@ -137,9 +143,9 @@ function guess(currentGuess) {
                 restart();
             } else {
                 restart();
-                startMenu.classList.remove('hidden');
+                startMenu.classList.add('visible');
                 gameDiv.classList.remove('visible');
-                backgroundMusic.pause();
+                howToMenu.classList.remove('visible');
             }
         }, 100);
     }
@@ -154,4 +160,8 @@ function restart() {
     displayGuesses.innerText = letterGuessed;
     getRandomWord(listOfWords);
     generateButtons();
+
+
 }
+
+
