@@ -25,8 +25,8 @@ let howToPlayButton = document.getElementById("howtoplaybutton");
 let howToMenu = document.getElementById("howtoplay");
 const elements = document.querySelectorAll('.backToMenu');
 const backtoMenu = Array.from(elements);
-let scoreboard = document.getElementById("scoreboard");
-let scoreboardDiv = document.getElementById("scoreboarddiv");
+let scoreboardButton = document.getElementById("scoreboardbutton");
+let scoreboardDiv = document.getElementById("scoreboardDiv");
 
 displayGuesses.append(letterGuessed);
 displayHealth.append(health);
@@ -56,6 +56,12 @@ howToPlayButton.addEventListener("click", () => {
 
 });
 
+scoreboardbutton.addEventListener("click", () => {
+    startMenu.classList.remove('visible');
+    scoreboardDiv.classList.add('visible');
+    scoreboardDiv.style.display = "block";
+});
+
 backtoMenu.forEach(element => {
     element.addEventListener("click", () => {
         backgroundMusic.pause();
@@ -64,6 +70,8 @@ backtoMenu.forEach(element => {
         howToMenu.classList.remove('visible');
         howToMenu.style.display = "none";
         startMenu.classList.add('visible');
+        scoreboardDiv.classList.remove('visible');
+        scoreboardDiv.style.display = "none";
         restart();
 
     });
