@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hangman</title>
+    <link rel="icon" 
+      type="image/png" 
+      href="http://example.com/myicon.png">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -39,6 +42,7 @@
             </label>
             <button class="backToMenu">back</button>
         </div>
+        <div id="currentuser"></div>
     </div>
 
     <div id="scoreboardDiv">
@@ -47,8 +51,7 @@
         <button class="backToMenu">back</button>
 
     </div>
-    <script src="hangman.js" defer></script>
-    <script src="scoreboard.js" defer></script>
+    <script type="module" src="./hangman.js"></script>
 </body>
 
 </html>

@@ -1,15 +1,18 @@
+
+import { createUser, getUser, setUser, updateScore } from './User/userService.js';
+import { loadCurrentUser, loadScoreboard } from './scoreboard.js';
+
 var listOfWords = [
     "monkey", "cat", "dog", "fox", "rabbit", "pig",
     "lion", "horse", "sheep", "cow", "goat", "chicken"
 ];
-
+var currentUser = "";
 var currentWord = "";
 var currentWordCheck = [];
-var audio = new Audio('/buttonSound.mp3');
-var backgroundMusic = new Audio('/backgroundmusic.mp3');
+var audio = new Audio('sound/buttonSound.mp3');
+var backgroundMusic = new Audio('sound/backgroundmusic.mp3');
 
 var letterGuessed = "";
-var numberOfGuesses = 0;
 var health = 5;
 var allLetters = "abcdefghijklmnopqrstuvwxyz";
 
@@ -25,13 +28,49 @@ let howToPlayButton = document.getElementById("howtoplaybutton");
 let howToMenu = document.getElementById("howtoplay");
 const elements = document.querySelectorAll('.backToMenu');
 const backtoMenu = Array.from(elements);
-let scoreboardButton = document.getElementById("scoreboardbutton");
 let scoreboardDiv = document.getElementById("scoreboardDiv");
 
 displayGuesses.append(letterGuessed);
 displayHealth.append(health);
 
+
+
+
+
+function resetScreen() {
+    backgroundMusic.pause();
+    gameDiv.classList.remove('visible');
+    gameDiv.style.display = "none";
+    howToMenu.classList.remove('visible');
+    howToMenu.style.display = "none";
+    startMenu.classList.add('visible');
+    scoreboardDiv.classList.remove('visible');
+    scoreboardDiv.style.display = "none";
+}
+
 startButton.addEventListener("click", () => {
+    if (localStorage.length > 0) {
+        for (let i = 0; i < localStorage.length; i++) {
+            let key = localStorage.key(i);
+            currentUser = localStorage.getItem(key);
+        }
+    } else if (localStorage.length > 1) {
+        console.log('Error, something sus');
+    } else {
+        console.log('localStorage är tomt.');
+    }
+    if (!currentUser) {
+        setTimeout(() => {
+            let userName = prompt("Skriv in ditt namn: ");
+            if (userName) {
+                let user = createUser(userName);
+                setUser(user);
+                currentUser = user;
+            } else {
+                createUser();
+            }
+        }, 100);
+    }
     backgroundMusic.currentTime = 0;
     backgroundMusic.loop = true;
     backgroundMusic.volume = 0.5;
@@ -57,6 +96,7 @@ howToPlayButton.addEventListener("click", () => {
 });
 
 scoreboardbutton.addEventListener("click", () => {
+    loadScoreboard();
     startMenu.classList.remove('visible');
     scoreboardDiv.classList.add('visible');
     scoreboardDiv.style.display = "block";
@@ -64,14 +104,7 @@ scoreboardbutton.addEventListener("click", () => {
 
 backtoMenu.forEach(element => {
     element.addEventListener("click", () => {
-        backgroundMusic.pause();
-        gameDiv.classList.remove('visible');
-        gameDiv.style.display = "none";
-        howToMenu.classList.remove('visible');
-        howToMenu.style.display = "none";
-        startMenu.classList.add('visible');
-        scoreboardDiv.classList.remove('visible');
-        scoreboardDiv.style.display = "none";
+        resetScreen()
         restart();
 
     });
@@ -111,15 +144,14 @@ function generateButtons() {
 }
 
 function guess(currentGuess) {
+
     if (health === 1) {
         setTimeout(() => {
             if (confirm("Vill du spela igen?")) {
                 restart();
             } else {
                 restart();
-                startMenu.classList.add('visible');
-                gameDiv.classList.remove('visible');
-                howToMenu.classList.remove('visible');
+                resetScreen()
                 backgroundMusic.pause();
             }
         }, 100);
@@ -146,15 +178,13 @@ function guess(currentGuess) {
     displayHealth.innerHTML = health;
 
     if (currentWordCheck.join('') === currentWord) {
+        updateScore(currentUser)
         setTimeout(() => {
             if (confirm("Vill du spela igen?")) {
                 restart();
             } else {
                 restart();
-                startMenu.classList.add('visible');
-                gameDiv.classList.remove('visible');
-                howToMenu.classList.remove('visible');
-                backgroundMusic.pause();
+                resetScreen()
 
             }
         }, 100);
