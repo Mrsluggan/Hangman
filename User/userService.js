@@ -20,6 +20,10 @@ export function setUser(user) {
     }
 }
 
+export function logoutUser() {
+    localStorage.clear();
+}
+
 export function updateScore(user) {
     user.score += 1;
     localStorage.setItem(user.userName, JSON.stringify(user));

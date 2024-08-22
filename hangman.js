@@ -1,5 +1,5 @@
 
-import { createUser, getUser, setUser, updateScore } from './User/userService.js';
+import { createUser, getUser, logoutUser, setUser, updateScore } from './User/userService.js';
 import { loadCurrentUser, loadScoreboard } from './scoreboard.js';
 
 var listOfWords = [
@@ -34,8 +34,42 @@ displayGuesses.append(letterGuessed);
 displayHealth.append(health);
 
 
+function logout() {
+    logoutUser();
+    resetScreen();
+}
 
 
+
+function initilize() {
+    if (localStorage.length > 0) {
+        for (let i = 0; i < localStorage.length; i++) {
+            let key = localStorage.key(i);
+            currentUser = localStorage.getItem(key);
+        }
+    } else if (localStorage.length > 1) {
+        console.log('Error, something sus');
+    } else {
+        console.log('localStorage är tomt.');
+    }
+
+    if (currentUser) {
+        console.log("fuck");
+
+        let logoutButton = document.createElement("button")
+        let buttonContainer = document.getElementById("button-container")
+
+        logoutButton.innerText = "logout"
+        logoutButton.addEventListener("click", () => {
+
+            logoutUser();
+            logoutButton.style.display = "none"
+
+        })
+        buttonContainer.appendChild(logoutButton);
+    }
+}
+initilize();
 
 function resetScreen() {
     backgroundMusic.pause();
@@ -49,16 +83,7 @@ function resetScreen() {
 }
 
 startButton.addEventListener("click", () => {
-    if (localStorage.length > 0) {
-        for (let i = 0; i < localStorage.length; i++) {
-            let key = localStorage.key(i);
-            currentUser = localStorage.getItem(key);
-        }
-    } else if (localStorage.length > 1) {
-        console.log('Error, something sus');
-    } else {
-        console.log('localStorage är tomt.');
-    }
+
     if (!currentUser) {
         setTimeout(() => {
             let userName = prompt("Skriv in ditt namn: ");
