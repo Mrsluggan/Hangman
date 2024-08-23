@@ -1,10 +1,8 @@
 
-import { createUser, getUser, logoutUser, setUser, updateScore } from './User/userService.js';
-import { loadCurrentUser, loadScoreboard } from './scoreboard.js';
+import { createNewUser, logoutUser, loadScoreboard, setUser, getUser, updateScore } from './scoreboard.js';
 
 var listOfWords = [
-    "monkey", "cat", "dog", "fox", "rabbit", "pig",
-    "lion", "horse", "sheep", "cow", "goat", "chicken"
+"d"
 ];
 var currentUser = "";
 var currentWord = "";
@@ -35,7 +33,6 @@ displayHealth.append(health);
 
 
 function logout() {
-    logoutUser();
     resetScreen();
 }
 
@@ -45,7 +42,10 @@ function initilize() {
     if (localStorage.length > 0) {
         for (let i = 0; i < localStorage.length; i++) {
             let key = localStorage.key(i);
-            currentUser = localStorage.getItem(key);
+            currentUser = (JSON.parse(localStorage.getItem(key))).userName;
+            
+            
+            
         }
     } else if (localStorage.length > 1) {
         console.log('Error, something sus');
@@ -54,8 +54,8 @@ function initilize() {
     }
 
     if (currentUser) {
-        console.log("fuck");
-
+        console.log(currentUser);
+        
         let logoutButton = document.createElement("button")
         let buttonContainer = document.getElementById("button-container")
 
@@ -85,17 +85,21 @@ function resetScreen() {
 startButton.addEventListener("click", () => {
 
     if (!currentUser) {
-        setTimeout(() => {
-            let userName = prompt("Skriv in ditt namn: ");
-            if (userName) {
-                let user = createUser(userName);
+        setTimeout(async () => {
+            let newUsername = prompt("Skriv in ditt namn: ");
+            if (newUsername) {
+                let user = await createNewUser(newUsername);
+                console.log(user);
+
                 setUser(user);
-                currentUser = user;
+                currentUser = user.userName
             } else {
                 createUser();
             }
         }, 100);
     }
+    console.log(currentUser);
+
     backgroundMusic.currentTime = 0;
     backgroundMusic.loop = true;
     backgroundMusic.volume = 0.5;
@@ -203,6 +207,7 @@ function guess(currentGuess) {
     displayHealth.innerHTML = health;
 
     if (currentWordCheck.join('') === currentWord) {
+        
         updateScore(currentUser)
         setTimeout(() => {
             if (confirm("Vill du spela igen?")) {

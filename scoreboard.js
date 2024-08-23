@@ -1,27 +1,22 @@
-import { getUser } from './User/userService.js';
 
-export function loadScoreboard() {
+export async function loadScoreboard() {
     const scoreboard = document.getElementById("scoreboard");
     scoreboard.innerHTML = "";
 
-    const users = [];
-
-    for (let i = 0; i < localStorage.length; i++) {
-        const userName = localStorage.key(i);
-        const user = getUser(userName);
-
-        if (user) {
-            users.push(user);
-        }
-    }
-
-    users.sort((a, b) => b.score - a.score);
-
-    users.forEach(user => {
-        const li = document.createElement("li");
-        li.innerHTML = `${user.userName}: ${user.score}`;
-        scoreboard.appendChild(li);
+    const response = await fetch(`http://localhost:3000/`);
+    const data = await response.json();
+    data.forEach(element => {
+        let displayUser = document.createElement("li");
+        displayUser.innerText = element.userName + ": " + element.score + " points";
+        scoreboard.append(displayUser);
     });
+
+
+}
+
+export function setUser(user) {
+
+    localStorage.setItem(user.userName, JSON.stringify(user));
 }
 
 export function loadCurrentUser(user) {
@@ -30,8 +25,75 @@ export function loadCurrentUser(user) {
     const currentUser = getUser(user);
     currentuserdiv.innerHTML = "current user: " + user
 
-}   
 
-export function saveScoreboard() {
-    // Den här funktionen är för närvarande tom. Implementera om det behövs.
 }
+export function logoutUser() {
+    localStorage.clear();
+
+}
+
+export async function createNewUser(username) {
+    try {
+        const response = await fetch('http://localhost:3000/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userName: username,
+                score: 0
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Failed to create user:', error);
+        throw error; // Or handle the error in another way
+    }
+}
+
+export async function updateScore(username) {
+
+    let currentUser = JSON.parse(localStorage.getItem(username))
+    currentUser.score += 1;
+    localStorage.setItem(username, JSON.stringify(currentUser));
+
+    await fetch(`http://localhost:3000/users/${username}/score`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+
+    });
+
+}
+
+export async function getUser(username) {
+    await fetch(`http://localhost:3000/users/${username}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+
+    });
+    return response.json();
+
+}
+
+export async function getUsers() {
+    await fetch(`http://localhost:3000/users`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+
+    });
+    return response.json();
+
+}
+
