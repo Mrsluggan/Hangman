@@ -1,5 +1,5 @@
 
-const uri = process.env.DATABASE_URL;
+const uri = env.DATABASE_URL;
 
 
 export async function loadScoreboard() {
