@@ -2,7 +2,7 @@
 import { createNewUser, logoutUser, loadScoreboard, setUser, getUser, updateScore } from './scoreboard.js';
 
 var listOfWords = [
-"d"
+    "d"
 ];
 var currentUser = "";
 var currentWord = "";
@@ -43,9 +43,9 @@ function initilize() {
         for (let i = 0; i < localStorage.length; i++) {
             let key = localStorage.key(i);
             currentUser = (JSON.parse(localStorage.getItem(key))).userName;
-            
-            
-            
+
+
+
         }
     } else if (localStorage.length > 1) {
         console.log('Error, something sus');
@@ -54,7 +54,7 @@ function initilize() {
     }
 
     if (currentUser) {
-        
+
         let logoutButton = document.createElement("button")
         let buttonContainer = document.getElementById("button-container")
 
@@ -85,7 +85,7 @@ startButton.addEventListener("click", () => {
 
     if (!currentUser) {
         setTimeout(async () => {
-            let newUsername = prompt("Skriv in ditt namn: ");
+            let newUsername = prompt("Skriv ditt namn, eller klicka på 'Avbryt' om du vill köra nameless");
             if (newUsername) {
                 let user = await createNewUser(newUsername);
                 console.log(user);
@@ -93,7 +93,9 @@ startButton.addEventListener("click", () => {
                 setUser(user);
                 currentUser = user.userName
             } else {
-                createUser();
+                createUser("namelessPlayer_" + Math.floor(Math.random() * 1000));
+                setUser(user);
+                currentUser = user.userName
             }
         }, 100);
     }
@@ -206,7 +208,7 @@ function guess(currentGuess) {
     displayHealth.innerHTML = health;
 
     if (currentWordCheck.join('') === currentWord) {
-        
+
         updateScore(currentUser)
         setTimeout(() => {
             if (confirm("Vill du spela igen?")) {
@@ -229,7 +231,7 @@ function restart() {
     displayGuesses.innerText = letterGuessed;
     getRandomWord(listOfWords);
     generateButtons();
-
+    initilize();
 
 }
 
