@@ -1,5 +1,4 @@
-const DATABASE_URL = 'din_hemliga_databas_url'; 
-console.log("yes");
+const DATABASE_URL = "https://hangman-backend-7wn5.onrender.com";
 
 export async function loadScoreboard() {
     const scoreboard = document.getElementById("scoreboard");
