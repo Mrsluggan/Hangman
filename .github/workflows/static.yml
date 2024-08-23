@@ -5,9 +5,6 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
-env:
-  DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
 permissions:
   contents: read
   pages: write
@@ -23,15 +20,25 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    env:
+      API_KEY: ${{ secrets.API_KEY }} # Här injiceras hemlig variabel som en miljövariabel
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      - name: Inject API Key into JS
+        run: |
+          echo "const uri = '${{ secrets.DATABASE_URL }}';" > scoreboard.js
+          cat scoreboard.js
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: "."
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
