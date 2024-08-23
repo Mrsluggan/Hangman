@@ -1,9 +1,12 @@
 
+const uri = process.env.DATABASE_URL;
+
+
 export async function loadScoreboard() {
     const scoreboard = document.getElementById("scoreboard");
     scoreboard.innerHTML = "";
 
-    const response = await fetch(`http://localhost:3000/`);
+    const response = await fetch(DATABASE_URL);
     const data = await response.json();
     data.forEach(element => {
         let displayUser = document.createElement("li");
@@ -34,7 +37,7 @@ export function logoutUser() {
 
 export async function createNewUser(username) {
     try {
-        const response = await fetch('http://localhost:3000/users', {
+        const response = await fetch(DATABASE_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -63,7 +66,7 @@ export async function updateScore(username) {
     currentUser.score += 1;
     localStorage.setItem(username, JSON.stringify(currentUser));
 
-    await fetch(`http://localhost:3000/users/${username}/score`, {
+    await fetch(DATABASE_URL + `/users/${username}/score`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -74,7 +77,7 @@ export async function updateScore(username) {
 }
 
 export async function getUser(username) {
-    await fetch(`http://localhost:3000/users/${username}`, {
+    await fetch(DATABASE_URL + `/users/${username}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -86,7 +89,7 @@ export async function getUser(username) {
 }
 
 export async function getUsers() {
-    await fetch(`http://localhost:3000/users`, {
+    await fetch(DATABASE_URL + `/users`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
