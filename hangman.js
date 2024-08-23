@@ -93,7 +93,7 @@ startButton.addEventListener("click", () => {
                 setUser(user);
                 currentUser = user.userName
             } else {
-                createUser("namelessPlayer_" + Math.floor(Math.random() * 1000));
+                createNewUser("namelessPlayer_" + Math.floor(Math.random() * 1000));
                 setUser(user);
                 currentUser = user.userName
             }
