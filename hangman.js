@@ -54,7 +54,6 @@ function initilize() {
     }
 
     if (currentUser) {
-        console.log(currentUser);
         
         let logoutButton = document.createElement("button")
         let buttonContainer = document.getElementById("button-container")
