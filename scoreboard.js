@@ -13,6 +13,8 @@ export async function loadScoreboard() {
         displayUser.innerText = element.userName + ": " + element.score + " points";
         scoreboard.append(displayUser);
     });
+    console.log("");
+    
 
 
 }
