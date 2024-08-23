@@ -1,5 +1,6 @@
 
-const uri = env.DATABASE_URL;
+const uri = 'din_hemliga_databas_url'; 
+console.log("yes");
 
 
 export async function loadScoreboard() {
