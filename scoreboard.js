@@ -32,7 +32,7 @@ export function logoutUser() {
 
 export async function createNewUser(username) {
     try {
-        const response = await fetch(DATABASE_URL, {
+        const response = await fetch(DATABASE_URL + "/users", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

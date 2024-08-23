@@ -2,7 +2,10 @@
 import { createNewUser, logoutUser, loadScoreboard, setUser, getUser, updateScore } from './scoreboard.js';
 
 var listOfWords = [
-    "d"
+    "bird",
+    "cat",
+    "dog",
+    "fox",
 ];
 var currentUser = "";
 var currentWord = "";
