@@ -1,4 +1,4 @@
-const DATABASE_URL = "https://hangman-backend-7wn5.onrender.com";
+const DATABASE_URL = "https://hangman-backend-7wn5.onrender.com/";
 console.log("test");
 
 export async function loadScoreboard() {
