@@ -36,7 +36,7 @@ jobs:
       - name: Run application
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: node your-script.js
+        run: node app.js
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
