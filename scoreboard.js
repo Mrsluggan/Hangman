@@ -1,7 +1,5 @@
-
-const uri = 'din_hemliga_databas_url'; 
+const DATABASE_URL = 'din_hemliga_databas_url'; 
 console.log("yes");
-
 
 export async function loadScoreboard() {
     const scoreboard = document.getElementById("scoreboard");
@@ -15,13 +13,9 @@ export async function loadScoreboard() {
         scoreboard.append(displayUser);
     });
     console.log("");
-    
-
-
 }
 
 export function setUser(user) {
-
     localStorage.setItem(user.userName, JSON.stringify(user));
 }
 
@@ -29,13 +23,11 @@ export function loadCurrentUser(user) {
     const currentuserdiv = document.getElementById("currentuser");
     currentuserdiv.innerHTML = "";
     const currentUser = getUser(user);
-    currentuserdiv.innerHTML = "current user: " + user
-
-
+    currentuserdiv.innerHTML = "current user: " + user;
 }
+
 export function logoutUser() {
     localStorage.clear();
-
 }
 
 export async function createNewUser(username) {
@@ -59,13 +51,12 @@ export async function createNewUser(username) {
         return data;
     } catch (error) {
         console.error('Failed to create user:', error);
-        throw error; // Or handle the error in another way
+        throw error;
     }
 }
 
 export async function updateScore(username) {
-
-    let currentUser = JSON.parse(localStorage.getItem(username))
+    let currentUser = JSON.parse(localStorage.getItem(username));
     currentUser.score += 1;
     localStorage.setItem(username, JSON.stringify(currentUser));
 
@@ -73,33 +64,26 @@ export async function updateScore(username) {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
-        },
-
+        }
     });
-
 }
 
 export async function getUser(username) {
-    await fetch(DATABASE_URL + `/users/${username}`, {
+    const response = await fetch(DATABASE_URL + `/users/${username}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
-        },
-
+        }
     });
     return response.json();
-
 }
 
 export async function getUsers() {
-    await fetch(DATABASE_URL + `/users`, {
+    const response = await fetch(DATABASE_URL + `/users`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
-        },
-
+        }
     });
     return response.json();
-
 }
-
