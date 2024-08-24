@@ -42,7 +42,7 @@ function logout() {
 
 
 function initilize() {
-    if (localStorage.length > 0) {
+    if (localStorage.length >= 0) {
         for (let i = 0; i < localStorage.length; i++) {
             let key = localStorage.key(i);
             currentUser = (JSON.parse(localStorage.getItem(key))).userName;
@@ -96,7 +96,7 @@ startButton.addEventListener("click", () => {
                 setUser(user);
                 currentUser = user.userName
             } else {
-                createNewUser("namelessPlayer_" + Math.floor(Math.random() * 1000));
+                let user = await createNewUser("namelessPlayer_" + Math.floor(Math.random() * 1000));
                 setUser(user);
                 currentUser = user.userName
             }
@@ -149,7 +149,7 @@ function getRandomWord(wordList) {
 
     currentWordCheck = Array(currentWord.length).fill("_");
 
-    console.log(currentWord);
+    console.log("current word, for yall cheaters " + currentWord);
     return currentWord;
 }
 
@@ -180,7 +180,7 @@ function guess(currentGuess) {
 
     if (health === 1) {
         setTimeout(() => {
-            if (confirm("Vill du spela igen?")) {
+            if (confirm("ordet var " + currentWord + ". Vill du spela igen?")) {
                 restart();
             } else {
                 restart();
@@ -193,7 +193,6 @@ function guess(currentGuess) {
 
     if (currentWord.includes(currentGuess)) {
         if (currentWordCheck.includes(currentGuess)) {
-            console.log("Bokstav finns redan");
         } else {
             for (let i = 0; i < currentWord.length; i++) {
                 if (currentWord[i] === currentGuess) {
