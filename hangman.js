@@ -8,6 +8,8 @@ var listOfWords = [
     "fox",
 ];
 var currentUser = "";
+var currentUserDiv = document.getElementById("currentuser");
+
 var currentWord = "";
 var currentWordCheck = [];
 var audio = new Audio('sound/buttonSound.mp3');
@@ -33,11 +35,6 @@ let scoreboardDiv = document.getElementById("scoreboardDiv");
 
 displayGuesses.append(letterGuessed);
 displayHealth.append(health);
-
-
-function logout() {
-    resetScreen();
-}
 
 
 
@@ -102,8 +99,7 @@ startButton.addEventListener("click", () => {
             }
         }, 100);
     }
-    console.log(currentUser);
-
+    currentUserDiv.innerHTML = "current user: " + currentUser;
     backgroundMusic.currentTime = 0;
     backgroundMusic.loop = true;
     backgroundMusic.volume = 0.5;
@@ -115,6 +111,7 @@ startButton.addEventListener("click", () => {
     gameDiv.style.display = "block";
 
 
+    initilize();
 
     getRandomWord(listOfWords);
     generateButtons();
@@ -213,7 +210,7 @@ function guess(currentGuess) {
 
         updateScore(currentUser)
         setTimeout(() => {
-            if (confirm("Vill du spela igen?")) {
+            if (confirm("Grattis! Du vann. Vill du spela igen?")) {
                 restart();
             } else {
                 restart();
