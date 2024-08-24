@@ -32,7 +32,7 @@ export function logoutUser() {
 
 export async function createNewUser(username) {
     try {
-        const response = await fetch(DATABASE_URL + "/users", {
+        const response = await fetch(DATABASE_URL + "users", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ export async function updateScore(username) {
     currentUser.score += 1;
     localStorage.setItem(username, JSON.stringify(currentUser));
 
-    await fetch(DATABASE_URL + `/users/${username}/score`, {
+    await fetch(DATABASE_URL + `users/${username}/score`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -69,7 +69,7 @@ export async function updateScore(username) {
 }
 
 export async function getUser(username) {
-    const response = await fetch(DATABASE_URL + `/users/${username}`, {
+    const response = await fetch(DATABASE_URL + `users/${username}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -79,7 +79,7 @@ export async function getUser(username) {
 }
 
 export async function getUsers() {
-    const response = await fetch(DATABASE_URL + `/users`, {
+    const response = await fetch(DATABASE_URL + `users`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
