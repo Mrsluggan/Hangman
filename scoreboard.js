@@ -32,6 +32,20 @@ export function logoutUser() {
     localStorage.clear();
 }
 
+export async function checkName() {
+    const response = await fetch(DATABASE_URL);
+
+    const data = await response.json();
+    data.forEach(element => {
+        if (element.userName === username) {
+            return true;
+        }
+    })
+    return false;
+
+
+}
+
 export async function createNewUser(username) {
     try {
         const response = await fetch(DATABASE_URL + "users", {
@@ -52,8 +66,7 @@ export async function createNewUser(username) {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error('Failed to create user:', error);
-        throw error;
+        return 500;
     }
 }
 

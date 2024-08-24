@@ -81,25 +81,35 @@ function resetScreen() {
     scoreboardDiv.style.display = "none";
 }
 
-startButton.addEventListener("click", () => {
-
+function registerUser() {
     if (!currentUser) {
         setTimeout(async () => {
             let newUsername = prompt("Skriv ditt namn, eller klicka på 'Avbryt' om du vill köra nameless");
             if (newUsername) {
-                let user = await createNewUser(newUsername);
-                console.log(user);
+                if (!checkName(newUsername)) {
+                    let user = await createNewUser(newUsername);
+                    setUser(user);
+                    currentUser = user.userName
+                    currentUserDiv.innerHTML = "current user: " + currentUser;
 
-                setUser(user);
-                currentUser = user.userName
+                } else {
+                    let user = await createNewUser("namelessPlayer_" + Math.floor(Math.random() * 1000));
+                    setUser(user);
+                    currentUser = user.userName
+                    currentUserDiv.innerHTML = "current user: " + currentUser;
+
+                }
             } else {
-                let user = await createNewUser("namelessPlayer_" + Math.floor(Math.random() * 1000));
-                setUser(user);
-                currentUser = user.userName
+                alert("Avbryt");
             }
         }, 100);
     }
-    currentUserDiv.innerHTML = "current user: " + currentUser;
+}
+
+startButton.addEventListener("click", () => {
+    initilize();
+
+    registerUser();
     backgroundMusic.currentTime = 0;
     backgroundMusic.loop = true;
     backgroundMusic.volume = 0.5;
@@ -111,7 +121,6 @@ startButton.addEventListener("click", () => {
     gameDiv.style.display = "block";
 
 
-    initilize();
 
     getRandomWord(listOfWords);
     generateButtons();
