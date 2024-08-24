@@ -8,6 +8,7 @@ export async function loadScoreboard() {
     const response = await fetch(DATABASE_URL);
     scoreboard.innerHTML = "Might take a while, not paying to host this...";
     const data = await response.json();
+    scoreboard.innerHTML = "";
     data.forEach(element => {
         let displayUser = document.createElement("li");
         displayUser.innerText = element.userName + ": " + element.score + " points";
