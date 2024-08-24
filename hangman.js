@@ -1,5 +1,5 @@
 
-import { createNewUser, logoutUser, loadScoreboard, setUser, getUser, updateScore } from './scoreboard.js';
+import { createNewUser, logoutUser, loadScoreboard, setUser, getUser, updateScore, checkName } from './scoreboard.js';
 
 var listOfWords = [
     "bird",
@@ -93,13 +93,18 @@ function registerUser() {
                     currentUserDiv.innerHTML = "current user: " + currentUser;
 
                 } else {
-                    let user = await createNewUser("namelessPlayer_" + Math.floor(Math.random() * 1000));
-                    setUser(user);
-                    currentUser = user.userName
-                    currentUserDiv.innerHTML = "current user: " + currentUser;
-
+                    alert("Denna namn finns redan");
+                    registerUser();
                 }
+
             } else {
+
+                let user = await createNewUser("namelessPlayer_" + Math.floor(Math.random() * 1000));
+                setUser(user);
+                currentUser = user.userName
+                currentUserDiv.innerHTML = "current user: " + currentUser;
+
+
                 alert("Avbryt");
             }
         }, 100);
