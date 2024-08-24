@@ -32,7 +32,7 @@ export function logoutUser() {
     localStorage.clear();
 }
 
-export async function checkName() {
+export async function checkName(username) {
     const response = await fetch(DATABASE_URL);
 
     const data = await response.json();
