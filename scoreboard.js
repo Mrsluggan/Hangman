@@ -34,17 +34,13 @@ export function logoutUser() {
 
 export async function checkName(username) {
     const response = await fetch(DATABASE_URL);
-
     const data = await response.json();
-    data.forEach(element => {
-        if (element.userName === username) {
-            return true;
-        }
-    })
-    return false;
 
+    const nameExists = data.some(element => element.userName === username);
 
+    return !nameExists;
 }
+
 
 export async function createNewUser(username) {
     try {

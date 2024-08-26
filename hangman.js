@@ -81,34 +81,27 @@ function resetScreen() {
     scoreboardDiv.style.display = "none";
 }
 
-function registerUser() {
+async function registerUser() {
     if (!currentUser) {
-        setTimeout(async () => {
-            let newUsername = prompt("Skriv ditt namn, eller klicka på 'Avbryt' om du vill köra nameless");
-            if (newUsername) {
-                if (!checkName(newUsername)) {
-                    let user = await createNewUser(newUsername);
-                    setUser(user);
-                    currentUser = user.userName
-                    currentUserDiv.innerHTML = "current user: " + currentUser;
-
-                } else {
-                    alert("Denna namn finns redan");
-                    registerUser();
-                }
-
-            } else {
-
-                let user = await createNewUser("namelessPlayer_" + Math.floor(Math.random() * 1000));
+        let newUsername = prompt("Skriv ditt namn, eller klicka på 'Avbryt' om du vill köra nameless");
+        if (newUsername) {
+            if (!checkName(newUsername)) {
+                let user = await createNewUser(newUsername);
                 setUser(user);
-                currentUser = user.userName
+                currentUser = user.userName;
                 currentUserDiv.innerHTML = "current user: " + currentUser;
-
-
-                alert("Avbryt");
+            } else {
+                alert("Detta namn finns redan");
+                registerUser();
             }
-        }, 100);
+        } else {
+            let user = await createNewUser("namelessPlayer_" + Math.floor(Math.random() * 1000));
+            setUser(user);
+            currentUser = user.userName;
+            currentUserDiv.innerHTML = "current user: " + currentUser;
+        }
     }
+
 }
 
 startButton.addEventListener("click", () => {
