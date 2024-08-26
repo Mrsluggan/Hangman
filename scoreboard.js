@@ -35,7 +35,8 @@ export function logoutUser() {
 export async function checkName(username) {
     const response = await fetch(DATABASE_URL);
     const data = await response.json();
-
+    console.log(data);
+    
     const nameExists = data.some(element => element.userName === username);
 
     return !nameExists;
